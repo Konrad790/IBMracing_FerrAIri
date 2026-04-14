@@ -1,0 +1,24 @@
+# Modele i checkpointy
+models/
+
+# Logi TensorBoard
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Środowisko wirtualne
+env/
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Edytor
+.vscode/
