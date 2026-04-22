@@ -1,96 +1,85 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides working guidance for coding agents and contributors in this repository.
 
 ## Project
 
-IBM AI Racing League — autonomous F1 race car on the **Corkscrew** track in TORCS (The Open Racing Car Simulator). Goal: fastest possible lap time from a standing start.
+IBM AI Racing League TORCS project. The objective is the fastest possible standing-start lap on the Corkscrew track with the F1 car.
 
-## Competition Context
+## Current Workflow
 
-- **Deadline**: July 1st, 2026
-- **Track**: Corkscrew (TORCS built-in)
-- **Car**: F1 (selected via `scr_server 1` in TORCS driver config)
-- **Start**: Standing start
-- **Platform**: Windows native (`wtorcs.exe`) — Python communicates via UDP (port 3001)
-- **University**: AGH University of Science and Technology, Kraków
-- **Required tooling**: IBM Granite must be visibly used in the project (it's part of the judging)
-
-## Architecture
-
-TORCS runs as a server. Our Python driver is a UDP client. Every ~20ms tick:
-1. TORCS sends sensor data (speed, 19 track-edge distances, angle, trackPos, wheelSpin, rpm, gear, etc.)
-2. Python computes action (steering [-1,1], accel [0,1], brake [0,1], gear [-1..6])
-3. Python sends command back via UDP
-
-Entry point: `torcs_jm_par.py` (IBM-provided starter — DO NOT modify, keep as reference). We extend from copies.
-
-## Strategy: Hybrid (Rule-Based → RL)
-
-**Phase 1**: Rule-based driver — tune parameters, implement corner detection, graduated braking, straight-line speed optimization. See `PHASE1_RULE_BASED.md`.
-
-**Phase 2**: Reinforcement Learning (SAC via Stable-Baselines3) with Gym wrapper around TORCS UDP. Rule-based driver becomes fallback. See `PHASE2_RL.md`.
+1. Keep `torcs_jm_par.py` as the untouched protocol reference.
+2. Use `driver.py` as the baseline working UDP client.
+3. Use `research_driver.py` plus JSON configs for tunable rule-based driving.
+4. Use `autoresearch.py` for automated search:
+   - `global` tunes one setup for the whole lap
+   - `documented-turns` keeps a shared base setup and mutates sector-local overrides
+5. Replay and record the best rule-based setup with `record_best_run.py`.
+6. Train SAC separately through `torcs_env.py`, `reward.py`, `train_sac.py`, `eval_sac.py`, and `record_best_rl_run.py`.
 
 ## Commands
 
-```bash
-# Launch TORCS (Windows) — must be running before the driver
-C:\Projekty\IBM_RACING_LEAGUE\torcs\torcs\wtorcs.exe
-# In GUI: Race → Quick Race → Configure Race → Corkscrew track, scr_server 1 → New Race
+```powershell
+# Launch TORCS first
+cd C:\Projekty\IBM_RACING_LEAGUE\torcs\torcs
+.\wtorcs.exe
 
-# Run the AI driver (separate terminal, after TORCS shows waiting screen)
-cd C:\Projekty\IBM_RACING_LEAGUE\torcs\gym_torcs/
+# In a second terminal, after TORCS is waiting for the client
+cd C:\Projekty\IBM_RACING_LEAGUE\torcs\gym_torcs
 python driver.py
 
-# Run with best-tuned params
+# Replay the current best rule-based setup
 python fastest.py
 
-# Phase 2 RL training
-pip install stable-baselines3[extra] gymnasium torch tensorboard pandas
-python train_sac.py
+# Record the current best rule-based lap
+python record_best_run.py
+
+# Run global parameter search
+python autoresearch.py
+
+# Run sector-aware parameter search
+python autoresearch.py --strategy documented-turns
+
+# Install RL dependencies
+pip install -r C:\Projekty\IBM_RACING_LEAGUE\torcs\gym_torcs\rl_requirements.txt
+
+# Train and evaluate SAC
+python train_sac.py --timesteps 100000
+python eval_sac.py --episodes 3
+
+# Record the best RL run
+python record_best_rl_run.py --episodes 3
 ```
 
-## Key Files
+## Important Files
 
 | File | Purpose |
 |------|---------|
-| `claude_md/PROJECT_OVERVIEW.md` | Full competition details, links, deliverables, timeline |
-| `claude_md/SETUP.md` | Installation & first run instructions |
-| `claude_md/ARCHITECTURE.md` | Sensor reference, actuator commands, UDP protocol, F1 car physics notes |
-| `claude_md/PHASE1_RULE_BASED.md` | Rule-based development plan with pseudocode |
-| `claude_md/PHASE2_RL.md` | RL upgrade plan (SAC, reward shaping, Gym wrapper) |
-| `claude_md/TASKS.md` | Working checklist and lap time log |
+| `AGENTS.md` | Repository runbook, artifact rules, and pipeline constraints |
+| `claude_md/PROJECT_OVERVIEW.md` | High-level project summary and repository layout |
+| `claude_md/SETUP.md` | Clone, install, and first-run instructions |
+| `claude_md/ARCHITECTURE.md` | Runtime topology and artifact flow |
+| `claude_md/PHASE1_RULE_BASED.md` | Rule-based and autoresearch workflow |
+| `claude_md/PHASE2_RL.md` | SAC workflow, artifacts, and recording flow |
+| `claude_md/TASKS.md` | Current checklist and ongoing work items |
+| `torcs/gym_torcs/research_driver.py` | Tunable rule-based driver and JSON schema |
+| `torcs/gym_torcs/autoresearch.py` | Automated parameter search |
+| `torcs/gym_torcs/track_sectors.py` | Documented Corkscrew sector boundaries |
+| `torcs/gym_torcs/record_best_run.py` | Rule-based telemetry recording and best-lap promotion |
+| `torcs/gym_torcs/torcs_env.py` | Gymnasium-compatible TORCS environment |
+| `torcs/gym_torcs/train_sac.py` | SAC training entry point |
+| `torcs/gym_torcs/record_best_rl_run.py` | RL telemetry and video recording |
 
-Source code lives in `torcs/gym_torcs/`.
+## Best-Artifact Conventions
 
-## Coding Conventions
+- Canonical rule-based setup: `torcs/gym_torcs/autoresearch_best.json`
+- Canonical rule-based result metadata: `torcs/gym_torcs/autoresearch_best_result.json`
+- Rule-based best replay artifacts: `results/best_run_records/rule_based_best_lap_*`
+- Canonical cross-pipeline best lap artifacts: `results/best_run_records/best_lap_*`
+- Per-run autoresearch outputs live under `results/autoresearch/<timestamp>/`
 
-- **Language**: Python 3.x
-- **No external deps in Phase 1** — only stdlib (socket, struct, math). The starter uses raw UDP.
-- **Phase 2 deps**: `stable-baselines3`, `gymnasium`, `torch`, `numpy`, `pandas`, `tensorboard`
-- One function per driving concept (corner detection, braking, gear shift, etc.)
-- Log lap times and parameters to CSV for every test run
-- Commit every improvement that beats the previous best
+## Notes
 
-## F1 Car Critical Physics
-
-- **DO NOT brake and steer simultaneously** — causes severe understeer on the F1 car
-- Brake BEFORE corners (in a straight line), then release brake and turn
-- Graduated braking (proportional), never binary full-brake
-- Acceleration to 0 when entering corners, gentle throttle through apex
-- Traction control needed — rear wheels spin easily under power
-
-## Track Sensor Quick Reference
-
-`track[0..18]` = 19 distance sensors from -90° to +90° in 10° steps. `track[9]` = straight ahead.
-- Small `track[9]` → corner approaching
-- Compare `sum(track[0:9])` vs `sum(track[10:19])` → corner direction
-- All sensors short → tight section, all long → wide straight
-
-## Important Constraints
-
-- TORCS has a **memory leak** — restart the simulator every ~20 races during automated testing
-- The Python client must respond within ~10ms or TORCS repeats the previous command
-- The official submission requires a **video of the fastest lap** with university/team name visible
-- The code must be in a **public GitHub repo**
-- IBM Granite usage must be documented (screenshots, video, blog)
+- `results/`, `models/`, simulator binaries, TensorBoard logs, videos, and local ffmpeg bundles are local runtime artifacts and should not be committed.
+- `documented-turns` tuning is driven by `distFromStart` sectors and sector times, not by a separate standalone driver.
+- A run-local best result may improve the current run without replacing the canonical global best. Keep those concepts separate in docs and code.

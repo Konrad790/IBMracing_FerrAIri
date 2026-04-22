@@ -1,75 +1,42 @@
-# TASKS — Working Checklist
+# Tasks
 
-## Current Phase: Setup & Phase 1 (Rule-Based)
+## Repository Hygiene
 
-### Pre-flight (Do FIRST)
-- [ ] Download TORCS zip from https://ibm.biz/TORCSdownloadzip
-- [ ] Extract to `C:\torcs\`
-- [ ] Verify `C:\torcs\torcs\wtorcs.exe` exists
-- [ ] Verify `C:\torcs\gym_torcs\torcs_jm_par.py` exists
-- [ ] Ensure Python 3.x is installed and on PATH
-- [ ] Complete IBM Granite credential: https://ibm.biz/TORCSnewGraniteSW
-- [ ] Complete AI Race League Innovation Certificate: https://ibm.biz/AIRaceLeagueCert
-- [ ] Register team: https://ibm.biz/RegistrationTORCS
-- [ ] Join Discord: https://discord.gg/KXhqwKqnB2
+- [x] Keep source code, configs, and docs in git
+- [x] Ignore local results, models, TensorBoard logs, simulator binaries, and local ffmpeg bundles
+- [ ] Keep documentation aligned with current CLI and artifact paths
+- [ ] Push only replayable source state, not bulky experiment outputs
 
-### First Run
-- [ ] Launch `wtorcs.exe`
-- [ ] Configure: Quick Race → Configure Race → Corkscrew track → scr_server 1
-- [ ] Click New Race
-- [ ] In separate terminal: `python torcs_jm_par.py`
-- [ ] Verify car drives autonomously
-- [ ] Record baseline lap time: ________
-- [ ] Note problem areas on track: ________
+## Rule-Based Pipeline
 
-### Phase 1: Rule-Based Development
-- [ ] Read and annotate `torcs_jm_par.py` — understand every function
-- [ ] Create backup copy of original `torcs_jm_par.py`
-- [ ] Create `driver.py` (working copy)
-- [ ] Implement corner detection using `track` sensors
-- [ ] Implement graduated braking (not binary)
-- [ ] Implement straight detection + high speed mode
-- [ ] Tune F1-specific parameters (no brake+steer simultaneously)
-- [ ] Implement RPM-based or speed-based gear shifting
-- [ ] Add traction control for wheel spin
-- [ ] Create `fastest.py` with best parameters
-- [ ] Build test automation (`test_runner.py` + CSV logging)
-- [ ] Run parameter sweep
-- [ ] Target: reliable lap completion, fastest time: ________
+- [x] Keep `torcs_jm_par.py` as the protocol reference
+- [x] Maintain a working `driver.py`
+- [x] Keep JSON-backed rule-based tuning in `research_driver.py`
+- [x] Maintain `fastest.py` for replaying the canonical best setup
+- [x] Maintain `autoresearch.py` for full-lap search
+- [x] Maintain `autoresearch.py --strategy documented-turns` for sector-aware search
+- [x] Save per-run configs, summaries, replay commands, and best telemetry under `results/autoresearch/`
+- [x] Preserve canonical best files in `autoresearch_best.json` and `autoresearch_best_result.json`
+- [x] Replay saved configs with `record_best_run.py --config-path ...`
+- [ ] Continue longer documented-turns runs for incremental lap-time gains
+- [ ] Compare sector bottlenecks across the latest saved runs
+- [ ] Freeze a submission-ready rule-based best lap and record it cleanly
 
-### Phase 2: Reinforcement Learning
-- [ ] Install dependencies: `stable-baselines3`, `gymnasium`, `torch`
-- [ ] Create `torcs_env.py` — Gym wrapper around TORCS UDP communication
-- [ ] Implement reward function in `reward.py`
-- [ ] Create `train_sac.py` — SAC training script
-- [ ] Train initial model (short episodes, basic control)
-- [ ] Monitor training with TensorBoard
-- [ ] Evaluate: does RL beat rule-based? Lap time: ________
-- [ ] Implement hybrid driver (RL + rule-based fallback)
-- [ ] Fine-tune reward shaping
-- [ ] Extended training (longer episodes, full laps)
-- [ ] Final RL lap time: ________
+## RL Pipeline
 
-### Phase 3: Submission Prep
-- [ ] Clean up code for GitHub repo
-- [ ] Write README.md for repo
-- [ ] Record fastest lap video (standing start, Corkscrew, university + team name visible)
-- [ ] Record team introduction video (team, approach, IBM Granite usage, SkillsBuild)
-- [ ] Write blog post (Medium) — optional but recommended
-- [ ] Submit via https://ibm.biz/TORCSForm before July 1st
+- [x] Keep `torcs_env.py` compatible with Gymnasium
+- [x] Keep reward shaping isolated in `reward.py`
+- [x] Maintain checkpointed SAC training with resume support
+- [x] Maintain `eval_sac.py` for verification runs
+- [x] Maintain `record_best_rl_run.py` for telemetry and video capture
+- [ ] Run longer SAC training blocks after rule-based tuning stabilizes
+- [ ] Compare RL best laps against the canonical rule-based best
+- [ ] Record and archive the best verified RL lap
 
-## Lap Time Log
+## Submission Readiness
 
-| Date | Version | Lap Time | Notes |
-|------|---------|----------|-------|
-| | baseline | | First run with default params |
-| | | | |
-| | | | |
-
-## Key Decisions Log
-
-| Decision | Reasoning | Date |
-|----------|-----------|------|
-| Hybrid approach (rule-based → RL) | Get running fast, then optimize with RL | Apr 2026 |
-| Windows native (not WSL2) | IBM provides wtorcs.exe, simpler setup | Apr 2026 |
-| | | |
+- [ ] Keep a reproducible command for replaying the best rule-based lap
+- [ ] Keep a reproducible command for replaying the best RL lap
+- [ ] Capture final telemetry for the chosen submission candidate
+- [ ] Capture final video for the chosen submission candidate
+- [ ] Sanity-check the public repo from a fresh clone without local artifacts

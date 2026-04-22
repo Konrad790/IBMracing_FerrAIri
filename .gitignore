@@ -6,6 +6,9 @@ __pycache__/
 dist/
 build/
 *.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 venv/
@@ -19,9 +22,16 @@ env/
 *.swo
 *~
 
+# Local environment files
+.env
+.env.*
+
 # TORCS simulator binary (too large, users download separately)
 torcs/torcs/
 torcs/TORCS_Python_Windows_Troubleshooting_Guide.docx
+
+# Optional local ffmpeg bundle
+tools/ffmpeg/
 
 # TORCS gym_torcs vendored files (from IBM zip, not our code)
 torcs/gym_torcs/.git/
@@ -38,6 +48,9 @@ models/
 *.jpg
 *.jpeg
 *.gif
+*.mp4
+*.avi
+*.webm
 
 # Results (local testing data)
 results/

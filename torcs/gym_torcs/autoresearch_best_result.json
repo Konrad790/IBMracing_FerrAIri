@@ -1,0 +1,193 @@
+{
+  "backwards_ticks": 0,
+  "completed_lap": true,
+  "config": {
+    "base_config": {
+      "accel_bias": 0.683391,
+      "accel_divisor": 54.911137,
+      "brake_distance_threshold": 206.256973,
+      "brake_divisor": 155.653624,
+      "brake_intensity_max": 0.555923,
+      "centering_gain": 0.470721,
+      "corner_detect_threshold": 172.348388,
+      "corner_throttle_cap": 0.4,
+      "far_brake_factor": 0.411988,
+      "gear_down_rpm": 3853,
+      "gear_up_rpm": 7484,
+      "in_turn_brake_cap": 0.1,
+      "low_speed_boost_accel": 0.496636,
+      "low_speed_boost_threshold": 8.974639,
+      "steer_gain": 16.672978,
+      "stuck_speed_threshold": 5.0,
+      "stuck_ticks": 100,
+      "target_speed_corner": 64.281632,
+      "target_speed_straight": 210.926589,
+      "tc_slip_threshold": 3.729132,
+      "tc_throttle_cut": 0.489146,
+      "turn_angle_threshold": 0.22097
+    },
+    "schema_version": 2,
+    "sector_layout": "corkscrew_documented_turns",
+    "sector_overrides": {
+      "T1": {
+        "accel_bias": 0.675931,
+        "brake_distance_threshold": 205.082908,
+        "brake_intensity_max": 0.55653,
+        "corner_throttle_cap": 0.513622,
+        "far_brake_factor": 0.378525,
+        "in_turn_brake_cap": 0.272126,
+        "target_speed_corner": 70.701207,
+        "target_speed_straight": 205.115212
+      },
+      "T10": {
+        "accel_bias": 0.683334,
+        "brake_distance_threshold": 210.400454,
+        "brake_intensity_max": 0.582858,
+        "corner_throttle_cap": 0.419804,
+        "far_brake_factor": 0.413368,
+        "target_speed_corner": 81.3424,
+        "target_speed_straight": 214.974731
+      },
+      "T11": {
+        "accel_bias": 0.696833,
+        "brake_distance_threshold": 216.454463,
+        "brake_intensity_max": 0.613448,
+        "corner_detect_threshold": 168.397004,
+        "corner_throttle_cap": 0.353277,
+        "far_brake_factor": 0.434837,
+        "in_turn_brake_cap": 0.070311,
+        "target_speed_straight": 206.89386
+      },
+      "T2": {
+        "accel_bias": 0.659697,
+        "brake_intensity_max": 0.516126,
+        "corner_detect_threshold": 175.618237,
+        "corner_throttle_cap": 0.426289,
+        "far_brake_factor": 0.255494,
+        "in_turn_brake_cap": 0.073507,
+        "target_speed_corner": 106.471412,
+        "target_speed_straight": 208.460316
+      },
+      "T3": {
+        "accel_bias": 0.522384,
+        "brake_distance_threshold": 100.232566,
+        "brake_intensity_max": 0.579688,
+        "corner_detect_threshold": 163.517243,
+        "corner_throttle_cap": 0.429111,
+        "far_brake_factor": 0.372805,
+        "in_turn_brake_cap": 0.087634,
+        "target_speed_corner": 66.089515,
+        "target_speed_straight": 208.486435
+      },
+      "T4": {
+        "accel_bias": 0.788938,
+        "brake_distance_threshold": 155.075014,
+        "brake_intensity_max": 0.612006,
+        "corner_detect_threshold": 176.778302,
+        "corner_throttle_cap": 0.467648,
+        "far_brake_factor": 0.361717,
+        "in_turn_brake_cap": 0.04394,
+        "target_speed_corner": 67.531782,
+        "target_speed_straight": 211.698779
+      },
+      "T5": {
+        "accel_bias": 0.540385,
+        "brake_distance_threshold": 194.670838,
+        "brake_intensity_max": 0.791563,
+        "corner_detect_threshold": 142.612647,
+        "corner_throttle_cap": 0.377987,
+        "in_turn_brake_cap": 0.089633,
+        "target_speed_corner": 83.329779,
+        "target_speed_straight": 225.162023
+      },
+      "T6": {
+        "accel_bias": 0.685865,
+        "brake_intensity_max": 0.578543,
+        "corner_detect_threshold": 180.340633,
+        "corner_throttle_cap": 0.624497,
+        "far_brake_factor": 0.467809,
+        "in_turn_brake_cap": 0.143329,
+        "target_speed_corner": 65.670098,
+        "target_speed_straight": 241.454148
+      },
+      "T7": {
+        "brake_distance_threshold": 210.375269,
+        "brake_intensity_max": 0.579599,
+        "in_turn_brake_cap": 0.141689,
+        "target_speed_corner": 69.054002,
+        "target_speed_straight": 204.677282
+      },
+      "T8": {
+        "accel_bias": 0.719855,
+        "brake_intensity_max": 0.512607,
+        "corner_detect_threshold": 160.182316,
+        "corner_throttle_cap": 0.473439,
+        "target_speed_corner": 65.374428,
+        "target_speed_straight": 214.33851
+      },
+      "T8A": {
+        "far_brake_factor": 0.383595,
+        "in_turn_brake_cap": 0.116038,
+        "target_speed_corner": 61.201584,
+        "target_speed_straight": 217.380202
+      },
+      "T9": {
+        "accel_bias": 0.699933,
+        "brake_distance_threshold": 140.57302,
+        "brake_intensity_max": 0.583562,
+        "corner_detect_threshold": 177.709257,
+        "corner_throttle_cap": 0.401918,
+        "far_brake_factor": 0.360704,
+        "in_turn_brake_cap": 0.068062,
+        "target_speed_straight": 223.74345
+      }
+    }
+  },
+  "config_path": "C:\\Projekty\\IBM_RACING_LEAGUE\\results\\autoresearch\\20260422_223622\\configs\\trial_047.json",
+  "current_lap_time": 0.0140002,
+  "damage": 0.0,
+  "dist_raced": 3618.96,
+  "exploration": 0.35,
+  "lap_source": "lastLapTime",
+  "lap_time": 117.542,
+  "last_sector": "T1",
+  "max_abs_track_pos": 0.990035,
+  "max_dist_from_start": 3608.25,
+  "max_speed": 193.786,
+  "mean_speed": 111.21991300138802,
+  "offtrack_ticks": 0,
+  "sector_layout": "corkscrew_documented_turns",
+  "sector_splits": {
+    "T1": 16.056,
+    "T10": 103.41,
+    "T11": 117.542,
+    "T2": 24.9,
+    "T3": 33.106,
+    "T4": 47.786,
+    "T5": 59.246,
+    "T6": 71.994,
+    "T7": 73.798,
+    "T8": 75.888,
+    "T8A": 84.028,
+    "T9": 94.126
+  },
+  "sector_times": {
+    "T1": 16.056,
+    "T10": 9.284,
+    "T11": 14.132,
+    "T2": 8.844,
+    "T3": 8.206,
+    "T4": 14.68,
+    "T5": 11.46,
+    "T6": 12.748,
+    "T7": 1.804,
+    "T8": 2.09,
+    "T8A": 8.14,
+    "T9": 10.098
+  },
+  "slow_ticks": 0,
+  "steps": 5583,
+  "termination_reason": "lap_completed",
+  "timestamp": "2026-04-23T00:14:53",
+  "trial_index": 47
+}

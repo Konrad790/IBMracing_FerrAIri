@@ -1,144 +1,163 @@
-# Architecture & Sensor Reference
+# Architecture And Runtime Flow
 
-## Communication Protocol
+## Runtime Topology
 
-TORCS uses the **SCR (Simulated Car Racing) protocol** — a UDP-based client-server architecture:
+TORCS runs as the UDP server. The Python side is a client that receives sensor packets, computes control outputs, and sends actions back on each simulation tick.
 
-- **Server**: TORCS simulator (`wtorcs.exe` with `scr_server` driver module)
-- **Client**: Python script (`torcs_jm_par.py`)
-- **Port**: 3001 (default, UDP)
-- **Tick rate**: ~50 Hz (20ms per simulation step)
-- **Timeout**: if client doesn't respond within ~10ms, TORCS repeats the previous command
-
-## torcs_jm_par.py Structure
-
-The starter script has this core loop:
-
-```
-initialize UDP connection
-while race_not_finished:
-    sensor_data = receive_from_torcs()    # UDP packet with all sensors
-    action = compute_driving_action(sensor_data)  # YOUR LOGIC HERE
-    send_to_torcs(action)                 # steering, accel, brake, gear
+```text
+wtorcs.exe  <->  UDP client in torcs/gym_torcs
 ```
 
-### Two Built-in Driving Modes
+The known-good protocol reference is `torcs_jm_par.py`. Everything else in this repository builds around that baseline.
 
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| `drive_example()` | Basic driving logic, minimal | Getting started, understanding the flow |
-| `drive_modular()` | Advanced with configurable parameters | Main development target |
+## Rule-Based Path
 
-## Sensor Data (Input from TORCS)
+### Core Components
 
-These are the values received every tick:
+- `driver.py`
+  Baseline working client used for smoke tests.
+- `research_driver.py`
+  Houses the tunable rule-based driver and JSON schema.
+- `fastest.py`
+  Loads the canonical best setup and runs it through the original UDP loop.
+- `record_best_run.py`
+  Replays a chosen config, records per-step telemetry, and promotes improved canonical best-lap artifacts.
 
-### Position & Orientation
-| Sensor | Type | Range | Description |
-|--------|------|-------|-------------|
-| `angle` | float | [-π, π] rad | Angle between car direction and track axis. 0 = aligned, positive = pointing right |
-| `trackPos` | float | [-1, 1] | Lateral position on track. 0 = center, -1 = right edge, +1 = left edge |
-| `distFromStart` | float | meters | Distance from start line along track centerline |
-| `distRaced` | float | meters | Total distance raced |
-| `curLapTime` | float | seconds | Current lap time |
-| `lastLapTime` | float | seconds | Previous lap time |
-| `racePos` | int | 1-N | Current race position |
+### Configuration Model
 
-### Speed
-| Sensor | Type | Unit | Description |
-|--------|------|------|-------------|
-| `speedX` | float | km/h | Longitudinal speed (along car axis) |
-| `speedY` | float | km/h | Lateral speed |
-| `speedZ` | float | km/h | Vertical speed |
+`research_driver.py` defines:
 
-### Track Sensors (CRITICAL for driving logic)
-| Sensor | Type | Description |
-|--------|------|-------------|
-| `track` | float[19] | Array of 19 distance sensors measuring distance to track edge. Sensors span from -90° to +90° in 10° increments. Each value = distance in meters to the track edge at that angle. **This is your primary input for corner detection and steering.** |
+- `DriverConfig`
+  Global parameter set for steering, braking, target speeds, traction control, and recovery behavior
+- `DriverSetup`
+  Wrapper around `DriverConfig` that optionally adds a sector layout plus per-sector overrides
 
-Sensor layout (bird's eye, car pointing up):
-```
-              [9] = straight ahead (0°)
-         [10]              [8]
-      [11]                    [7]
-    [12]                        [6]
-  [13]                            [5]
- [14]                              [4]
-[15]                                [3]
-[16]                                [2]
-[17]                                [1]
-[18] = -90° (hard right)    [0] = +90° (hard left)
+`DriverSetup` supports:
 
-Index:  Angle from car forward:
-  0  →  -90° (far left)
-  1  →  -80°
-  2  →  -70°
-  ...
-  9  →    0° (straight ahead)
-  ...
- 17  →  +80°
- 18  →  +90° (far right)
-```
+- full-lap tuning with one shared config
+- sector-aware tuning with a shared base config plus local overrides
 
-**Key insight**: When `track[9]` (straight ahead) is small, a corner is approaching. Comparing left-side sensors (`track[0..8]`) vs right-side sensors (`track[10..18]`) tells you which direction the corner goes.
+## Sector-Aware Autoresearch
 
-### Wheel Data
-| Sensor | Type | Description |
-|--------|------|-------------|
-| `wheelSpinVel` | float[4] | Angular spin velocity of each wheel (rad/s). Order: [front-left, front-right, rear-left, rear-right] |
-| `rpm` | float | Engine RPM |
-| `gear` | int | Current gear (-1 = reverse, 0 = neutral, 1-6 = forward) |
+### Sector Model
 
-### Damage & Fuel
-| Sensor | Type | Description |
-|--------|------|-------------|
-| `damage` | float | Accumulated damage points |
-| `fuel` | float | Remaining fuel level |
+`track_sectors.py` defines the documented Corkscrew sectors:
 
-### Opponents
-| Sensor | Type | Description |
-|--------|------|-------------|
-| `opponents` | float[36] | Distance to nearest opponent in 36 angular sectors (10° each, 360° coverage) |
+- `T1`
+- `T2`
+- `T3`
+- `T4`
+- `T5`
+- `T6`
+- `T7`
+- `T8`
+- `T8A`
+- `T9`
+- `T10`
+- `T11`
 
-## Actuator Commands (Output to TORCS)
+The sector mapping is derived from `distFromStart` and normalized against track length. The launch straight before Turn 1 is intentionally part of `T1`.
 
-| Command | Type | Range | Description |
-|---------|------|-------|-------------|
-| `steer` | float | [-1, +1] | Steering. -1 = full right, +1 = full left |
-| `accel` | float | [0, 1] | Throttle. 0 = none, 1 = full |
-| `brake` | float | [0, 1] | Brake. 0 = none, 1 = full |
-| `gear` | int | -1 to 6 | Gear selection |
-| `clutch` | float | [0, 1] | Clutch (usually 0) |
-| `focus` | float | [-90, 90] | Focus sensor direction (rarely used) |
+### Search Loop
 
-## User-Configurable Parameters in torcs_jm_par.py
+`autoresearch.py` works like this:
 
-These are the main knobs to tune in the starter code:
+1. Load the canonical best setup or the baseline if `--reset-best` is used.
+2. Evaluate the starting point.
+3. Mutate parameters for a series of candidate trials.
+4. Keep separate notions of:
+   - run-local best
+   - canonical global best
+5. Persist the per-run best artifacts under `results/autoresearch/<timestamp>/`.
+6. Update `autoresearch_best.json` and `autoresearch_best_result.json` only if the canonical global best truly improved.
 
-| Parameter | Description | Tuning Direction |
-|-----------|-------------|-----------------|
-| `TARGET_SPEED` | Speed the car accelerates toward | ↑ = faster but riskier corners |
-| `STEER_GAIN` | How sharply car turns into corners | ↑ = sharper turns, ↓ = smoother |
-| `CENTERING_GAIN` | How aggressively car returns to center | Adjust for track positioning |
-| `BRAKE_THRESHOLD` | When to start braking before corners | ↓ = earlier braking, ↑ = later (braver) |
-| `GEAR_SPEEDS` | Speed thresholds for gear shifts | Match to F1 car power band |
-| `ENABLE_TRACTION_CONTROL` | Prevents wheel spin on acceleration | Keep enabled for stability |
+### Feedback Signals
 
-## F1 Car Physics Notes
+Each trial tracks:
 
-The F1 car has very different physics from the standard TORCS cars:
-- **Much higher downforce** — can corner faster but more sensitive to speed
-- **More powerful engine** — higher top speed, gear ratios matter more
-- **Different braking behavior** — braking too hard causes understeer (not lockup like road cars)
-- **Understeer tendency** — especially when braking + turning simultaneously
-- **Key lesson from other teams**: reduce acceleration to 0 when approaching corners, brake gradually (not all at once)
+- lap time
+- off-track count
+- damage
+- mean speed
+- termination reason
+- sector splits
+- derived `sector_times`
 
-## Corkscrew Track Notes
+In `documented-turns` mode, slower sectors receive more mutation attention in future candidates.
 
-The Corkscrew is a technical track with:
-- Significant elevation changes (the famous corkscrew section is a steep downhill with blind corners)
-- Tight hairpin-style corners
-- A mix of fast straights and technical sections
-- Very unforgiving on corner exits — going off track is easy
+## Telemetry And Best-Lap Artifacts
 
-**Critical corners to optimize**: the corkscrew section itself and the final corner before the start/finish straight.
+### Rule-Based
+
+Per-run autoresearch outputs:
+
+- `results/autoresearch/<timestamp>/summary.json`
+- `results/autoresearch/<timestamp>/best_config.json`
+- `results/autoresearch/<timestamp>/best_result.json`
+- `results/autoresearch/<timestamp>/best_telemetry.jsonl`
+- `results/autoresearch/<timestamp>/replay_best_command.txt`
+
+Canonical rule-based best replay outputs:
+
+- `results/best_run_records/rule_based_best_lap_summary.json`
+- `results/best_run_records/rule_based_best_lap_telemetry.jsonl`
+- `results/best_run_records/rule_based_best_lap_time.txt`
+
+### RL
+
+Training and evaluation can promote:
+
+- `results/best_run_records/rl_training_best_lap_summary.json`
+- `results/best_run_records/rl_training_best_lap_telemetry.jsonl`
+- `results/best_run_records/rl_training_best_lap_time.txt`
+- `results/best_run_records/rl_training_best_lap_video.mp4`
+
+Canonical cross-pipeline best lap artifacts:
+
+- `results/best_run_records/best_lap_summary.json`
+- `results/best_run_records/best_lap_telemetry.jsonl`
+- `results/best_run_records/best_lap_time.txt`
+- `results/best_run_records/best_lap_video.mp4`
+
+## RL Path
+
+### Core Components
+
+- `rl_torcs_client.py`
+  RL-oriented TORCS client wrapper
+- `torcs_env.py`
+  Gymnasium environment
+- `reward.py`
+  Reward breakdown and shaping
+- `train_sac.py`
+  SAC training entry point, checkpointing, and best-lap promotion
+- `eval_sac.py`
+  Saved-model evaluation
+- `record_best_rl_run.py`
+  Full telemetry and optional video capture for the best RL checkpoint
+
+### Environment Shape
+
+`torcs_env.py` currently uses:
+
+- a 2D continuous action space
+- a 32-value normalized observation vector
+- long episode limits suitable for a full Corkscrew lap
+- launch assist and generous stuck handling so the policy can learn to leave the grid
+
+### Reward Design
+
+`reward.py` combines:
+
+- forward progress
+- forward speed
+- center deviation penalty
+- angle penalty
+- damage penalty
+- lateral motion penalty
+- off-track penalty
+- backward penalty
+- lap completion bonus
+- terminal penalty
+
+The reward logic is deliberately isolated so it can be tuned without modifying the networking layer.
