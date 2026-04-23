@@ -22,6 +22,16 @@
 - [ ] Compare sector bottlenecks across the latest saved runs
 - [ ] Freeze a submission-ready rule-based best lap and record it cleanly
 
+## Karpathy-Style Autoresearch Follow-Up
+
+- [ ] Try a Karpathy-style autoresearch workflow after the current `autoresearch.py --strategy documented-turns` path stabilizes.
+- [ ] Do not reset tuning progress for that experiment. Use the current canonical `autoresearch_best.json` and `autoresearch_best_result.json` as the baseline.
+- [ ] Add a markdown-driven experiment protocol similar to `program.md`, where the human defines the research rules and the agent follows a fixed loop.
+- [ ] Keep the TORCS evaluation harness fixed, analogous to Karpathy's immutable `prepare.py`.
+- [ ] Restrict the mutable surface to the experiment strategy or candidate generator, analogous to Karpathy's mutable `train.py`.
+- [ ] Start the new `results.tsv` style log with the current best lap as the first `keep` baseline row.
+- [ ] Compare the Karpathy-style workflow against the existing deterministic tuner only after it can replay and improve from the same best-known setup.
+
 ## RL Pipeline
 
 - [x] Keep `torcs_env.py` compatible with Gymnasium
