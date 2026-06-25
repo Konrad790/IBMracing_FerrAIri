@@ -8,42 +8,94 @@ from stable_baselines3.common.callbacks import (
 )
 from torcs_env import TorcsEnv
 
+
 import torch
 torch.cuda.set_device(0)
 
 # ================================================================
-# KONFIGURACJA — tu zmieniasz parametry nie ruszając reszty kodu
+# CONFIGURATION — change parameters here without touching rest of code
 # ================================================================
+# Mode: 'scratch' = SAC from scratch | 'finetune' = after BC / old checkpoint
+TRAIN_MODE = 'scratch'  # 'scratch' or 'finetune
+
 CONFIG = {
-    # Środowisko
+  # Environment
     'port': 3001,
 
-    # Trening
-    'total_timesteps': 500_000,   # ile kroków łącznie
-    'learning_starts': 10_000,    # ile kroków zebrać zanim zaczniesz uczyć
-                                  # (żeby replay buffer nie był pusty)
+    # Training
+    'total_timesteps': 1_000_000,
+    # scratch: ~10k random steps before gradient starts
+    # finetune: 0 if buffer pre-filled with expert_data (see block below)
+    'learning_starts': 10_000,
 
-    # SAC — hiperparametry
-    'learning_rate': 3e-4,        # jak duże kroki robi optymalizator
-    'buffer_size': 100_000,       # ile doświadczeń trzymać w pamięci
-    'batch_size': 256,            # ile losować z bufora na raz
-    'gamma': 0.99,                # współczynnik dyskontowania przyszłych nagród
-    'tau': 0.005,                 # jak szybko target network śledzi główną sieć
-    'train_freq': 1,              # co ile kroków aktualizować sieć
-    'gradient_steps': 1,          # ile aktualizacji na raz
+    # SAC — common
+    'batch_size': 256,
+    'gamma': 0.99,           # TORCS episodes long; optionally 0.995 with progress reward
+    'tau': 0.005,
+    'train_freq': 1,
+    'gradient_steps': 1,     # TORCS slow — can use 2–4 for better buffer sampling
+    'policy_kwargs': dict(net_arch=[256, 256]),
 
-    # Zapis
+    # SAC — scratch (from scratch, without BC)
+    'scratch': {
+        'learning_rate': 3e-4,
+        'buffer_size': 300_000,
+        'ent_coef': 'auto',      # SB3 default; high exploration at start
+        'learning_starts': 10_000,
+    },
+
+    # SAC — finetune (after BC / sac_bc_pretrained; less slalom from entropy)
+    'finetune': {
+        'learning_rate': 1e-4,   # 3e-5 if policy still "drifts"
+        'buffer_size': 300_000,
+        'ent_coef': 0.05,        # crucial: 'auto' likes to return to noise in turns
+        'learning_starts': 0,
+        'gradient_steps': 2,
+    },
+
+    # Saving
     'save_dir': 'models',
     'log_dir': 'logs',
-    'save_freq': 50_000,          # co ile kroków zapisywać checkpoint
+    'save_freq': 100_000,
+    'expert_data_path': 'expert_data.pkl',
+    'prefill_expert_buffer': True,  # finetune: keep expert trajectories in buffer
 }
 
+
+def sac_hyperparams():
+    """Merges CONFIG + scratch/finetune profile."""
+    profile = CONFIG[TRAIN_MODE]
+    return {
+        'learning_rate': profile['learning_rate'],
+        'buffer_size': profile['buffer_size'],
+        'batch_size': CONFIG['batch_size'],
+        'gamma': CONFIG['gamma'],
+        'tau': CONFIG['tau'],
+        'train_freq': CONFIG['train_freq'],
+        'gradient_steps': profile.get('gradient_steps', CONFIG['gradient_steps']),
+        'learning_starts': profile.get('learning_starts', CONFIG['learning_starts']),
+        'ent_coef': profile['ent_coef'],
+        'policy_kwargs': CONFIG['policy_kwargs'],
+    }
+
+
+def apply_finetune_overrides(model):
+    """After SAC.load() saved hyperparameters override CONFIG — set manually."""
+    if TRAIN_MODE != 'finetune':
+        return
+    hp = sac_hyperparams()
+    model.learning_rate = hp['learning_rate']
+    model.ent_coef = hp['ent_coef']
+    model.gradient_steps = hp['gradient_steps']
+    model.learning_starts = hp['learning_starts']
+    # buffer_size from checkpoint doesn't change after load — new model or larger buffer from scratch
+
 def make_env():
-    """Tworzy i opakuje środowisko w Monitor (loguje epizody)."""
+    """Creates and wraps environment in Monitor (logs episodes)."""
     env = TorcsEnv(port=CONFIG['port'])
 
-    # Monitor zapisuje nagrody i długości epizodów do pliku CSV
-    # — to podstawa do późniejszej analizy w TensorBoard
+    # Monitor saves rewards and episode lengths to CSV file
+    # — this is the basis for later analysis in TensorBoard
     env = Monitor(env, filename=os.path.join(CONFIG['log_dir'], 'monitor'))
     return env
 
@@ -51,57 +103,67 @@ def main():
     os.makedirs(CONFIG['save_dir'], exist_ok=True)
     os.makedirs(CONFIG['log_dir'], exist_ok=True)
 
-    print("Tworzenie środowiska...")
+    print("Creating environment...")
     env = make_env()
 
-    print("Tworzenie modelu SAC...")
+    print("Creating SAC model...")
 
-    ###### JAK TWORZYCIE NOWY MODEL ######
+    ###### WHEN CREATING NEW MODEL ######
 
+    # hp = sac_hyperparams()
     # model = SAC(
-    #     policy='MlpPolicy',       # MLP = zwykła sieć feed-forward
-    #                               # (alternatywa: CnnPolicy dla obrazów)
+    #     policy='MlpPolicy',
     #     env=env,
-
-    #     # Hiperparametry z konfiguracji
-    #     learning_rate=CONFIG['learning_rate'],
-    #     buffer_size=CONFIG['buffer_size'],
-    #     batch_size=CONFIG['batch_size'],
-    #     gamma=CONFIG['gamma'],
-    #     tau=CONFIG['tau'],
-    #     train_freq=CONFIG['train_freq'],
-    #     gradient_steps=CONFIG['gradient_steps'],
-    #     learning_starts=CONFIG['learning_starts'],
-
-    #     # Architektura sieci — dwie warstwy po 256 neuronów
-    #     # dla aktora i krytyka
-    #     policy_kwargs=dict(net_arch=[256, 256]),
-
-    #     # Logowanie do TensorBoard
     #     tensorboard_log=CONFIG['log_dir'],
-
-    #     verbose=1,   # wypisuj postęp w terminalu
+    #     verbose=1,
+    #     **hp,
     # )
 
-    ###### JAK WCZYTUJECIE JAKIS ISTNIEJACY ######
+    ###### WHEN LOADING EXISTING MODEL ######
 
-    model = SAC.load('models/sac_new_v3_torcs_100000_steps', env=env)
+    model = SAC.load('models/sac_torcs_7_200000_steps', env=env)
+    apply_finetune_overrides(model)
 
     # ================================================================
-    # CALLBACKS — co robić w trakcie treningu
+    # CALLBACKS — what to do during training
     # ================================================================
 
-    # Zapisuje model co save_freq kroków
+    # if TRAIN_MODE == 'finetune' and CONFIG.get('prefill_expert_buffer'):
+    #     import pickle
+
+    #     path = CONFIG['expert_data_path']
+    #     print(f"Loading expert data to replay buffer: {path}")
+    #     with open(path, 'rb') as f:
+    #         expert_data = pickle.load(f)
+
+    #     # Rewards in pkl = old function; critic gets new ones from env in learn() anyway.
+    #     # After changing reward, worth collecting expert_data again.
+    #     for i in range(len(expert_data) - 1):
+    #         row = expert_data[i]
+    #         model.replay_buffer.add(
+    #             row['obs'],
+    #             expert_data[i + 1]['obs'],
+    #             row['action'],
+    #             row.get('reward', 0.0),
+    #             row.get('done', False),
+    #             [{}],
+    #         )
+    #     print(f"Buffer after prefill: {model.replay_buffer.size()} transitions")
+
+
+    # Saves model every save_freq steps
     checkpoint_cb = CheckpointCallback(
         save_freq=CONFIG['save_freq'],
         save_path=CONFIG['save_dir'],
-        name_prefix='sac_new_v4_torcs',
+        name_prefix='sac_torcs_14',
         verbose=1,
     )
 
-    print(f"Rozpoczynam trening — {CONFIG['total_timesteps']:,} kroków")
-    print(f"Pierwsze {CONFIG['learning_starts']:,} kroków: zbieranie doświadczeń (losowe akcje)")
-    print(f"Potem: uczenie co {CONFIG['train_freq']} krok(ów)")
+    hp = sac_hyperparams()
+    print(f"Mode: {TRAIN_MODE} | lr={hp['learning_rate']} | buffer={hp['buffer_size']}")
+    print(f"ent_coef={hp['ent_coef']} | learning_starts={hp['learning_starts']}")
+    print(f"Starting training — {CONFIG['total_timesteps']:,} steps")
+    print(f"Learning every {CONFIG['train_freq']} step(s), gradient_steps={hp['gradient_steps']}")
     print("=" * 50)
 
     model.learn(
@@ -110,10 +172,10 @@ def main():
         progress_bar=True,
     )
 
-    # Zapisz finalny model
-    final_path = os.path.join(CONFIG['save_dir'], 'sac_torcs_final')
+    # Save final model
+    final_path = os.path.join(CONFIG['save_dir'], 'sac_torcs_final1')
     model.save(final_path)
-    print(f"\nModel zapisany: {final_path}")
+    print(f"\nModel saved: {final_path}")
 
     env.close()
 

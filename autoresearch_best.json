@@ -1,0 +1,158 @@
+{
+    "base_config": {
+      "accel_bias": 0.679584,
+      "accel_divisor": 61.497294,
+      "brake_distance_threshold": 206.256973,
+      "brake_divisor": 156.061798,
+      "brake_intensity_max": 0.555923,
+      "centering_gain": 0.575935,
+      "corner_detect_threshold": 172.348388,
+      "corner_throttle_cap": 0.4,
+      "far_brake_factor": 0.411988,
+      "gear_down_rpm": 3774,
+      "gear_up_rpm": 7203,
+      "in_turn_brake_cap": 0.1,
+      "low_speed_boost_accel": 0.432989,
+      "low_speed_boost_threshold": 9.696485,
+      "steer_gain": 17.641812,
+      "stuck_speed_threshold": 5.0,
+      "stuck_ticks": 100,
+      "target_speed_corner": 64.281632,
+      "target_speed_straight": 210.926589,
+      "tc_slip_threshold": 7.181094,
+      "tc_throttle_cut": 0.725039,
+      "turn_angle_threshold": 0.215314
+    },
+    "schema_version": 2,
+    "sector_layout": "corkscrew_documented_turns",
+    "sector_overrides": {
+      "T1": {
+        "accel_bias": 0.8,
+        "brake_distance_threshold": 203.381521,
+        "brake_intensity_max": 0.334804,
+        "corner_detect_threshold": 122.347315,
+        "corner_throttle_cap": 0.574372,
+        "far_brake_factor": 0.389675,
+        "in_turn_brake_cap": 0.278831,
+        "target_speed_corner": 61.252164,
+        "target_speed_straight": 216.927845
+      },
+      "T10": {
+        "accel_bias": 0.487974,
+        "brake_distance_threshold": 212.455391,
+        "brake_intensity_max": 0.508268,
+        "corner_detect_threshold": 100.655982,
+        "corner_throttle_cap": 0.7705,
+        "far_brake_factor": 0.247752,
+        "in_turn_brake_cap": 0.368058,
+        "target_speed_corner": 110.0,
+        "target_speed_straight": 226.894121
+      },
+      "T11": {
+        "accel_bias": 0.680958,
+        "brake_distance_threshold": 202.027065,
+        "brake_intensity_max": 0.372625,
+        "corner_detect_threshold": 104.028601,
+        "corner_throttle_cap": 0.452866,
+        "far_brake_factor": 0.739989,
+        "in_turn_brake_cap": 0.031122,
+        "target_speed_corner": 59.080953,
+        "target_speed_straight": 203.566671
+      },
+      "T2": {
+        "accel_bias": 0.544045,
+        "brake_distance_threshold": 183.76088,
+        "brake_intensity_max": 0.82433,
+        "corner_detect_threshold": 182.372924,
+        "corner_throttle_cap": 0.510014,
+        "far_brake_factor": 0.285722,
+        "in_turn_brake_cap": 0.056261,
+        "target_speed_corner": 107.000977,
+        "target_speed_straight": 185.12585
+      },
+      "T3": {
+        "accel_bias": 0.611408,
+        "brake_distance_threshold": 104.031318,
+        "brake_intensity_max": 0.437281,
+        "corner_detect_threshold": 165.642816,
+        "corner_throttle_cap": 0.668201,
+        "far_brake_factor": 0.49737,
+        "in_turn_brake_cap": 0.088461,
+        "target_speed_corner": 99.948591,
+        "target_speed_straight": 213.297719
+      },
+      "T4": {
+        "accel_bias": 0.695909,
+        "brake_distance_threshold": 107.847176,
+        "brake_intensity_max": 0.560344,
+        "corner_detect_threshold": 163.831689,
+        "corner_throttle_cap": 0.507081,
+        "far_brake_factor": 0.426889,
+        "in_turn_brake_cap": 0.009332,
+        "target_speed_corner": 110.0,
+        "target_speed_straight": 257.634327
+      },
+      "T5": {
+        "accel_bias": 0.491931,
+        "brake_distance_threshold": 100.0,
+        "brake_intensity_max": 0.524648,
+        "corner_detect_threshold": 161.595182,
+        "corner_throttle_cap": 0.512261,
+        "in_turn_brake_cap": 0.062719,
+        "target_speed_corner": 94.071956,
+        "target_speed_straight": 244.209733
+      },
+      "T6": {
+        "accel_bias": 0.622475,
+        "brake_distance_threshold": 198.18162,
+        "brake_intensity_max": 0.638291,
+        "corner_detect_threshold": 121.395218,
+        "corner_throttle_cap": 0.8,
+        "far_brake_factor": 0.336034,
+        "in_turn_brake_cap": 0.212761,
+        "target_speed_corner": 80.629736,
+        "target_speed_straight": 267.972268
+      },
+      "T7": {
+        "accel_bias": 0.638445,
+        "brake_distance_threshold": 218.441411,
+        "brake_intensity_max": 0.654042,
+        "corner_detect_threshold": 168.373503,
+        "corner_throttle_cap": 0.564598,
+        "far_brake_factor": 0.783675,
+        "target_speed_corner": 68.664153,
+        "target_speed_straight": 268.266399
+      },
+      "T8": {
+        "accel_bias": 0.8,
+        "brake_distance_threshold": 187.805124,
+        "brake_intensity_max": 0.536872,
+        "corner_detect_threshold": 132.440414,
+        "corner_throttle_cap": 0.417651,
+        "far_brake_factor": 0.497179,
+        "target_speed_straight": 227.184728
+      },
+      "T8A": {
+        "accel_bias": 0.699288,
+        "brake_distance_threshold": 200.166547,
+        "brake_intensity_max": 0.447578,
+        "corner_detect_threshold": 215.305298,
+        "corner_throttle_cap": 0.510447,
+        "far_brake_factor": 0.524305,
+        "in_turn_brake_cap": 0.140499,
+        "target_speed_corner": 66.757733,
+        "target_speed_straight": 235.508295
+      },
+      "T9": {
+        "accel_bias": 0.744396,
+        "brake_distance_threshold": 104.353309,
+        "brake_intensity_max": 0.551738,
+        "corner_detect_threshold": 115.598608,
+        "corner_throttle_cap": 0.786715,
+        "far_brake_factor": 0.39146,
+        "in_turn_brake_cap": 0.085377,
+        "target_speed_corner": 91.355347,
+        "target_speed_straight": 275.709066
+      }
+    }
+  }

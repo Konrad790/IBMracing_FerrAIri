@@ -1,8 +1,11 @@
-# Modele i checkpointy
+# Models and Logs
 models/
-
-# Logi TensorBoard
 logs/
+expert_data.pkl
+bc_model.pth
+
+# TORCS simulator source
+vtorcs-RL-color/
 
 # Python
 __pycache__/
@@ -12,13 +15,12 @@ __pycache__/
 .mypy_cache/
 .venv/
 venv/
-
-# Środowisko wirtualne
 env/
 
-# Pliki systemowe
+# System files
 .DS_Store
 Thumbs.db
 
-# Edytor
+# IDE
+.idea/
 .vscode/
