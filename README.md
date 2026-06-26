@@ -32,8 +32,6 @@ We developed an AI racing agent for the TORCS simulator that achieves **superhum
 
 ## 🏆 Results
 
-*Results will be updated after final evaluation*
-
 Rule-Based Model:
    - 102s
 
