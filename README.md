@@ -25,14 +25,20 @@ We developed an AI racing agent for the TORCS simulator that achieves **superhum
 ### Key Achievements
 - ✅ **Expert-Level Performance** - Fast and precise steering control
 - ✅ **Smooth Driving** - Anti-slalom reward shaping reduces oscillations
-- ✅ **Robust Architecture** - Handles track variations and edge cases
-- ✅ **Efficient Learning** - Behavioral Cloning reduces training time and improves the agent's performance
+- ✅ **Robust Architecture** - Created for handling track variations and edge cases
+- ✅ **Efficient Learning** - Behavioral Cloning improves the agent's performance
 
 ---
 
 ## 🏆 Results
 
 *Results will be updated after final evaluation*
+
+Rule-Based Model:
+   - 102s
+
+Reinforcement Learning Model:
+   - 110s
 
 ---
 
@@ -130,15 +136,13 @@ Our carefully crafted reward function balances multiple objectives:
 ```
 gym_torcs/
 ├── 🎓 Expert System
-│   ├── mk_driver.py              # Parametrized rule-based driver
-│   ├── expert_driver.py          # Expert wrapper for data collection
-│   ├── expert_env.py             # Environment for expert evaluation
+│   ├── expert_driver.py          # Runs the expert driver
+│   ├── expert_env.py             # Expert wrapper for data collection
 │   ├── autoresearch_best.json    # Optimized hyperparameters
 │   └── track_sectors.py          # Track geometry analysis
 │
 ├── 📊 Data Collection
 │   ├── collect_expert_data.py    # Automated expert data gathering
-│   ├── human_driver.py           # Manual driving interface (gamepad/keyboard)
 │   └── expert_data.pkl           # Collected expert trajectories
 │
 ├── 🧠 Training Pipeline
@@ -148,7 +152,7 @@ gym_torcs/
 │   └── snakeoil.py               # TORCS client communication
 │
 ├── 📈 Evaluation
-│   └── evaluate.py               # Model testing and visualization
+│   └── evaluate.py               # Model testing
 │
 ├── 💾 Models & Logs
 │   ├── models/                   # Saved model checkpoints
@@ -166,17 +170,14 @@ gym_torcs/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Operating System:** Ubuntu 18.04+ or Windows 10+ with WSL2
 - **Python:** 3.10 or higher
 - **GPU:** CUDA-compatible GPU recommended (training)
 - **TORCS:** Modified version included in`vtorcs-RL-color`             installed using skillsbuild tutorial
 
 ### Installation
 
-
-
-1.** Install TORCS**
-- Download the modified version of TORCS with skillsbuild tutorial
+1. **Install TORCS**
+# Download the modified version of TORCS with skillsbuild tutorial
 
 2. **Clone the repository**
 ```bash
@@ -371,10 +372,8 @@ We leveraged IBM Granite models for:
 
 ### IBM SkillsBuild
 Team members completed courses on:
-- **Deep Reinforcement Learning Fundamentals**
-- **Neural Network Architecture Design**
-- **Python for AI Development**
-- **Machine Learning Best Practices**
+
+![Skillsbuild Badges](<Skillsbuild.png>)
 
 These courses provided foundational knowledge that directly informed our architectural decisions and training strategies.
 
@@ -382,8 +381,7 @@ These courses provided foundational knowledge that directly informed our archite
 Bob was instrumental throughout development:
 - **Code Development** - Assisted in implementing complex reward functions
 - **Debugging** - Helped identify and fix training instabilities
-- **Optimization** - Suggested vectorization and performance improvements
-- **Documentation** - Helped structure this README and code comments
+- **Documentation** - Helped to structure the repository
 
 **Example Use Case:** When our agent developed slalom behavior, Bob helped us:
 1. Analyze the reward function for missing penalties
@@ -414,7 +412,7 @@ Bob was instrumental throughout development:
 
 ## 🎓 Key Learnings
 
-1. **Behavioral Cloning is Crucial** - BC initialization reduced training time by 60% and eliminated dangerous random exploration phase
+1. **Behavioral Cloning is Crucial** - BC initialization improved the agent's performance and eliminated random exploration phase
 
 2. **Reward Shaping Matters** - Carefully designed multi-component rewards with anti-slalom penalties were essential for smooth driving
 
@@ -432,8 +430,6 @@ Bob was instrumental throughout development:
 - [ ] Opponent awareness and overtaking
 - [ ] Weather and track condition adaptation
 - [ ] Real-time strategy adjustment
-- [ ] Transfer learning to other racing simulators
-- [ ] Model compression for edge deployment
 
 ---
 
