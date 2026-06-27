@@ -60,7 +60,7 @@ Pre-training through imitation learning provides a strong initialization:
 - **Supervised Learning** - MSE loss on expert actions
 - **Weight Transfer** - Direct initialization of SAC actor network
 
-**Key Innovation:** BC eliminates the dangerous random exploration phase, allowing the agent to start with safe, competitive driving behavior.
+**Key Innovation:** BC eliminates the random exploration phase, allowing the agent to start with safe, smooth driving behavior.
 
 ### Stage 3: Reinforcement Learning Fine-Tuning
 SAC (Soft Actor-Critic) pushes beyond expert performance:
@@ -92,8 +92,15 @@ SAC (Soft Actor-Critic) pushes beyond expert performance:
 ```
 
 ### Neural Network Architecture
+
+**Behavioral Cloning (pre-training):**
 ```
-Input (30) → Dense(256) → ReLU → Dense(256) → ReLU → Output(2) → Tanh
+Input (30) → Dense(256) → ReLU → Dense(256) → ReLU → Dense(2) → Tanh
+```
+
+**SAC Actor (RL fine-tuning):**
+```
+Input (30) → Dense(256) → ReLU → Dense(256) → ReLU → mu (Dense(2)) -> Tanh
 ```
 
 ### Reward Function Components
@@ -175,7 +182,7 @@ gym_torcs/
 ### Installation
 
 1. **Install TORCS**
-   **Download the modified version of TORCS with skillsbuild tutorial**
+   Download the modified version of TORCS with skillsbuild tutorial
 
 2. **Clone the repository**
 ```bash
@@ -188,16 +195,13 @@ cd gym_torcs
 pip install -r requirements.txt
 ```
 
-4. **Configure TORCS**
+4. **Configure TORCS**   
    Launch TORCS 
-   
    In GUI: Race → Practice → Configure Race
    Select track: Corkscrew
    Select car: Any GT car
    Race → Practice → New Race (opens server)
-```
 
----
 
 ## Usage
 
