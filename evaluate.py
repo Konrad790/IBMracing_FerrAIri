@@ -70,4 +70,4 @@ def evaluate(model_path, episodes=5):
     env.close()
 
 if __name__ == '__main__':
-    evaluate('models/sac_torcs_4_400000_steps')
+    evaluate('models/sac_torcs_8_300000_steps')

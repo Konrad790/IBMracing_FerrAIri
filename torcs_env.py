@@ -371,15 +371,15 @@ class TorcsEnv(gym.Env):
 
         reward = (
             0.8 * reward_speed
-            + 0.4 * progress
+            + 0.8 * progress
             - 0.3 * penalty_pos
             - 0.1 * penalty_angle #0.4
-            - 0.8 * penalty_pos_delta
+            - 0.6 * penalty_pos_delta
             - 0.4 * penalty_speed_y
-            - 0.2 * penalty_steer_accel #0.4
-            - 0.2 * penalty_nsmooth_steer #0.3
+            - 0.4 * penalty_steer_accel #0.4
+            - 0.3 * penalty_nsmooth_steer #0.3
             - 1.0 * penalty_damage
-        )  # crappy, turns poorly and slaloms
+        )  
 
         return float(reward)
 
