@@ -182,7 +182,7 @@ gym_torcs/
 ### Installation
 
 1. **Install TORCS**
-   Download the modified version of TORCS with skillsbuild tutorial
+   - Download the modified version of TORCS with skillsbuild tutorial
 
 2. **Clone the repository**
 ```bash
@@ -196,11 +196,11 @@ pip install -r requirements.txt
 ```
 
 4. **Configure TORCS**   
-   Launch TORCS 
-   In GUI: Race → Practice → Configure Race
-   Select track: Corkscrew
-   Select car: Any GT car
-   Race → Practice → New Race (opens server)
+   - Launch TORCS 
+   - In GUI: Race → Practice → Configure Race
+   - Select track: Corkscrew
+   - Select car: Any GT car
+   - Race → Practice → New Race (opens server)
 
 
 ## Usage
@@ -260,7 +260,7 @@ Runs the trained agent for multiple laps and reports:
 
 ---
 
-## 📊 Monitoring Training
+## Monitoring Training
 
 We use TensorBoard for real-time training visualization:
 
@@ -277,7 +277,7 @@ tensorboard --logdir=logs/
 
 ---
 
-## 🛠️ Technical Details
+## Technical Details
 
 ### Hyperparameter Tuning
 
@@ -392,7 +392,7 @@ Bob was instrumental throughout development:
 
 ---
 
-## 📚 References & Inspiration
+## References & Inspiration
 
 ### Academic Papers
 - **SAC Algorithm:** [Soft Actor-Critic: Off-Policy Maximum Entropy Deep RL](https://arxiv.org/abs/1801.01290)
@@ -411,7 +411,7 @@ Bob was instrumental throughout development:
 
 ---
 
-## 🎓 Key Learnings
+## Key Learnings
 
 1. **Behavioral Cloning is Crucial** - BC initialization improved the agent's performance and eliminated random exploration phase
 
@@ -425,7 +425,7 @@ Bob was instrumental throughout development:
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 - [ ] Multi-track generalization
 - [ ] Opponent awareness and overtaking
@@ -434,13 +434,13 @@ Bob was instrumental throughout development:
 
 ---
 
-## 📄 License
+## License
 
 This project is developed for the IBM AI Racing League competition.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **IBM** for organizing the AI Racing League and providing tools
 - **AGH University AI LAB** for resources and support
@@ -453,6 +453,6 @@ This project is developed for the IBM AI Racing League competition.
 
 **Team FerrAIri** | AGH University of Science and Technology
 
-*Racing towards the future of AI* 🏁
+*Racing towards the future of AI* 
 
 </div>
