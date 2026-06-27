@@ -10,7 +10,7 @@
 
 ---
 
-## 👥 Team Members
+## Team Members
 - **Fabian Bicca** 
 - **Józef Kasprzycki**
 - **Mikołaj Klima**
@@ -18,19 +18,19 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 We developed an AI racing agent for the TORCS simulator that achieves **superhuman performance** on the challenging Corkscrew track through a novel three-stage training pipeline. Our approach combines the stability of rule-based systems with the adaptability of deep reinforcement learning, resulting in an agent that not only matches but **exceeds expert human performance**.
 
 ### Key Achievements
-- ✅ **Expert-Level Performance** - Fast and precise steering control
-- ✅ **Smooth Driving** - Anti-slalom reward shaping reduces oscillations
-- ✅ **Robust Architecture** - Created for handling track variations and edge cases
-- ✅ **Efficient Learning** - Behavioral Cloning improves the agent's performance
+- **Expert-Level Performance** - Fast and precise steering control
+- **Smooth Driving** - Anti-slalom reward shaping reduces oscillations
+- **Robust Architecture** - Created for handling track variations and edge cases
+- **Efficient Learning** - Behavioral Cloning improves the agent's performance
 
 ---
 
-## 🏆 Results
+## Results
 
 Rule-Based Model:
    - 102s
@@ -40,11 +40,11 @@ Reinforcement Learning Model:
 
 ---
 
-## 🧠 Methodology
+## Methodology
 
 Our three-stage approach leverages the strengths of both classical and modern AI techniques:
 
-### Stage 1: Rule-Based Expert System 🎓
+### Stage 1: Rule-Based Expert System
 We developed a sophisticated parametrized driver based on racing heuristics:
 - **Track Analysis** - Sector-based speed optimization
 - **Adaptive Control** - Dynamic steering and throttle adjustment
@@ -53,7 +53,7 @@ We developed a sophisticated parametrized driver based on racing heuristics:
 
 **Key Innovation:** Our expert system uses track sector analysis to predict optimal racing lines and adjust behavior for different track segments (straights, turns, chicanes).
 
-### Stage 2: Behavioral Cloning 🎯
+### Stage 2: Behavioral Cloning
 Pre-training through imitation learning provides a strong initialization:
 - **Expert Data Collection** - 40+ laps of optimal driving (~50K transitions)
 - **MLP Architecture** - 256-256 hidden layers with Tanh activation
@@ -62,7 +62,7 @@ Pre-training through imitation learning provides a strong initialization:
 
 **Key Innovation:** BC eliminates the dangerous random exploration phase, allowing the agent to start with safe, competitive driving behavior.
 
-### Stage 3: Reinforcement Learning Fine-Tuning 🚀
+### Stage 3: Reinforcement Learning Fine-Tuning
 SAC (Soft Actor-Critic) pushes beyond expert performance:
 - **Continuous Control** - 2D action space (steering, throttle/brake)
 - **Rich Observations** - 30D state space (speeds, track sensors, wheel spin)
@@ -73,7 +73,7 @@ SAC (Soft Actor-Critic) pushes beyond expert performance:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Observation Space (30 dimensions)
 ```
@@ -129,35 +129,35 @@ Our carefully crafted reward function balances multiple objectives:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 gym_torcs/
-├── 🎓 Expert System
+├── Expert System
 │   ├── expert_driver.py          # Runs the expert driver
 │   ├── expert_env.py             # Expert wrapper for data collection
 │   ├── autoresearch_best.json    # Optimized hyperparameters
 │   └── track_sectors.py          # Track geometry analysis
 │
-├── 📊 Data Collection
+├── Data Collection
 │   ├── collect_expert_data.py    # Automated expert data gathering
 │   └── expert_data.pkl           # Collected expert trajectories
 │
-├── 🧠 Training Pipeline
+├── Training Pipeline
 │   ├── behavioral_cloning.py     # BC pre-training implementation
 │   ├── train.py                  # SAC fine-tuning with callbacks
 │   ├── torcs_env.py              # Gym-compatible TORCS environment
 │   └── snakeoil.py               # TORCS client communication
 │
-├── 📈 Evaluation
+├── Evaluation
 │   └── evaluate.py               # Model testing
 │
-├── 💾 Models & Logs
+├── Models & Logs
 │   ├── models/                   # Saved model checkpoints
 │   ├── logs/                     # TensorBoard training logs
 │   └── bc_model.pth              # Pre-trained BC model
 │
-└── 📋 Configuration
+└── Configuration
     ├── requirements.txt          # Python dependencies
     ├── practice.xml              # TORCS race configuration
     └── README.md                 # This file
@@ -165,7 +165,7 @@ gym_torcs/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Python:** 3.10 or higher
@@ -175,7 +175,7 @@ gym_torcs/
 ### Installation
 
 1. **Install TORCS**
-# Download the modified version of TORCS with skillsbuild tutorial
+   **Download the modified version of TORCS with skillsbuild tutorial**
 
 2. **Clone the repository**
 ```bash
@@ -189,18 +189,17 @@ pip install -r requirements.txt
 ```
 
 4. **Configure TORCS**
-# Launch TORCS 
-torcs
-
-# In GUI: Race → Practice → Configure Race
-# Select track: Corkscrew
-# Select car: Any GT car
-# Race → Practice → New Race (opens server)
+   Launch TORCS 
+   
+   In GUI: Race → Practice → Configure Race
+   Select track: Corkscrew
+   Select car: Any GT car
+   Race → Practice → New Race (opens server)
 ```
 
 ---
 
-## 💻 Usage
+## Usage
 
 ### Training from Scratch
 

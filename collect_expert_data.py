@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 from pathlib import Path
 from snakeoil import Client
-from mk_driver import TunableDriver, load_driver_setup
+from expert_env import TunableDriver, load_driver_setup
 
 def get_obs(S):
     """Same format as in torcs_env._get_obs()"""

@@ -110,23 +110,26 @@ def main():
 
     ###### WHEN CREATING NEW MODEL ######
 
-    # hp = sac_hyperparams()
-    # model = SAC(
-    #     policy='MlpPolicy',
-    #     env=env,
-    #     tensorboard_log=CONFIG['log_dir'],
-    #     verbose=1,
-    #     **hp,
-    # )
+    hp = sac_hyperparams()
+    model = SAC(
+        policy='MlpPolicy',
+        env=env,
+        tensorboard_log=CONFIG['log_dir'],
+        verbose=1,
+        **hp,
+    )
 
     ###### WHEN LOADING EXISTING MODEL ######
 
-    model = SAC.load('models/sac_torcs_7_200000_steps', env=env)
+    #model = SAC.load('models/ ##path## ', env=env)
     apply_finetune_overrides(model)
 
     # ================================================================
     # CALLBACKS — what to do during training
     # ================================================================
+
+
+    #Creating Replay Buffer
 
     # if TRAIN_MODE == 'finetune' and CONFIG.get('prefill_expert_buffer'):
     #     import pickle
