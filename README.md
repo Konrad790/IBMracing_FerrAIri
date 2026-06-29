@@ -15,6 +15,7 @@
 - **Józef Kasprzycki**
 - **Mikołaj Klima**
 - **Konrad Leżoń**
+- **Lidia Moryc**
 
 ---
 
