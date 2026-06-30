@@ -15,6 +15,8 @@
 - **Józef Kasprzycki**
 - **Mikołaj Klima**
 - **Konrad Leżoń**
+- **Michał Malik**
+- **Lidia Moryc**
 
 ---
 
@@ -453,6 +455,6 @@ This project is developed for the IBM AI Racing League competition.
 
 **Team FerrAIri** | AGH University of Science and Technology
 
-*Racing towards the future of AI* 
+*Racing towards the future of AI* 🏁
 
 </div>
