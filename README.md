@@ -11,12 +11,13 @@
 ---
 
 ## Team Members
+
+- **Mikołaj Klima**
 - **Fabian Bicca** 
 - **Józef Kasprzycki**
-- **Mikołaj Klima**
 - **Konrad Leżoń**
-- **Michał Malik**
 - **Lidia Moryc**
+- **Michał Malik**
 
 ---
 
