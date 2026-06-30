@@ -1,168 +1,149 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-        <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FerrAIri - IBM AI Racing League Project</title>
-        <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FerrAIri - IBM AI Racing League Project</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-        <header>
-                <h1>🏁 FerrAIri</h1>
-                <p>IBM AI Racing League - Autonomous Vehicle Intelligence Project</p>
-        </header>
+    <header>
+        <h1>FerrAIri</h1>
+        <p>IBM AI Racing League - Autonomous Vehicle Intelligence Project</p>
+    </header>
 
-        <div class="container">
-                <!-- Team Section -->
-                <section>
-                        <h2>Our Team</h2>
-                        <p>We are a community of passionate students from the AI Lab science club at AGH. Together, we
-                                tackle complex, real-world problems by pushing the boundaries of Machine Learning,
-                                Artificial Intelligence, and Quantum Computing.</p>
+    <div class="container">
+        <!-- Intro Section -->
+        <section>
+            <p>Hi folks! 👋</p>
+            <p>Picture this: six AGH students, zero prior experience racing AI cars, and a TORCS simulator. A few months and a lot of crashes later, here's the story of how we taught a virtual racing car to drive itself.</p>
+            <p>Grab a coffee, this is going to be a fun ride. 🏎️</p>
+        </section>
 
-                        <div class="team-grid">
-                                <div class="team-member">
-                                        <strong>Mikołaj Klima</strong>
-                                        <div class="field">Computational Engineering | AGH</div>
-                                </div>
-                                <div class="team-member">
-                                        <strong>Fabian Bicca</strong>
-                                        <div class="field">Computer Science | AGH</div>
-                                </div>
-                                <div class="team-member">
-                                        <strong>Józef Kasprzycki</strong>
-                                        <div class="field">Computational Engineering | AGH</div>
-                                </div>
-                                <div class="team-member">
-                                        <strong>Konrad Leżoń</strong>
-                                        <div class="field">Computer Science | AGH</div>
-                                </div>
-                                <div class="team-member">
-                                        <strong>Lidia Moryc</strong>
-                                        <div class="field">Space Technologies | AGH</div>
-                                </div>
-                                <div class="team-member">
-                                        <strong>Michał Malik</strong>
-                                        <div class="field">Mathematics | AGH</div>
-                                </div>
-                        </div>
-                </section>
+        <!-- Team Section -->
+        <section>
+            <h1>Our Team</h1>
+            <p>We are a community of passionate students from the AI Lab science club at AGH University of Science and Technology. Together, we tackle complex, real-world problems by pushing the boundaries of Machine Learning, Artificial Intelligence, and even Quantum Computing. The IBM AI Racing League gave us a perfect playground to put that mindset to the test.</p>
+            <p>Meet our team members, their background and role in the project:</p>
 
-                <!-- Research Section -->
-                <section>
-                        <h2>Research & Approach</h2>
-                        <p>The first phase of our project involved comprehensive research. We completed multiple IBM
-                                SkillsBuild courses on AI and Machine Learning Algorithms, then began exploring various
-                                approaches to autonomous racing.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <strong>Mikołaj Klima</strong>
+                    <div class="field">Computational Engineering | AGH | AI Lab | RL training</div>
+                </div>
+                <div class="team-member">
+                    <strong>Fabian Bicca</strong>
+                    <div class="field">Computer Science | AGH | AI Lab | RL training</div>
+                </div>
+                <div class="team-member">
+                    <strong>Józef Kasprzycki</strong>
+                    <div class="field">Computational Engineering | AGH | AI Lab | system architect</div>
+                </div>
+                <div class="team-member">
+                    <strong>Konrad Leżoń</strong>
+                    <div class="field">Computer Science | AGH | AI Lab | reward tuning</div>
+                </div>
+                <div class="team-member">
+                    <strong>Lidia Moryc</strong>
+                    <div class="field">Space Technologies | AGH | AI Lab | writing & visualization</div>
+                </div>
+                <div class="team-member">
+                    <strong>Michał Malik</strong>
+                    <div class="field">Mathematics | AGH | AI Lab | technical support</div>
+                </div>
+            </div>
 
-                        <p>Our strategy centered on <strong>Reinforcement Learning</strong>, but we developed parallel
-                                solutions including a <strong>rule-based model</strong> for reliability. We also
-                                explored <strong>Behavioral Cloning</strong>, a supervised learning technique that
-                                allowed us to fine-tune models using expert driving data.</p>
+            <h2>What was our motivation?</h2>
+            <p>As a group of AGH students, we are always curious and eager to learn new things. When we came across the IBM AI Racing League, we saw a chance to expand our knowledge of reinforcement learning, compete as a team, and take part in a real race.</p>
+        </section>
 
-                        <p>Our work was divided into specialized teams:</p>
-                        <ul>
-                                <li>Rule-based model development and optimization</li>
-                                <li>Reinforcement Learning implementation with SAC (Soft Actor-Critic)</li>
-                                <li>Expert data collection and behavioral cloning</li>
-                                <li>Reward function engineering and refinement</li>
-                        </ul>
+        <!-- Research Section -->
+        <section>
+            <h1>Research</h1>
+            <p>The first part of our project was research. We started by sharpening our AI and Machine Learning fundamentals through IBM's SkillsBuild, then moved on to exploring possible approaches.</p>
+            <p>Our main idea was of course reinforcement learning, but in order to increase our chances we decided to develop a rule-based model at the same time. While discussing our plan with IBM Bob we came across a technique called behavioral cloning, which we later used to be able to fine tune the model created with the expert data.</p>
 
-                        <div class="image-gallery">
-                                <img alt="Research visualization 1" src="images/image2.jpg" title="Model architecture">
-                                <img alt="Research visualization 2" src="images/image1.jpg" title="Training results">
-                        </div>
-                </section>
+            <div class="image-gallery">
+                <img alt="Research visualization 1" src="images/image2.jpg" title="Model architecture">
+                <img alt="Research visualization 2" src="images/image1.jpg" title="Training results">
+            </div>
 
-                <!-- Training Section -->
-                <section>
-                        <h2>Training the Driver</h2>
+            <p>Finally we split into teams, where we were working on training rule-based models and RL models separately. From that moment we were spending most of the time experimenting with the reward in order to maximize our model's performance.</p>
+        </section>
 
-                        <h3>Rule-Based Model</h3>
-                        <p>Our rule-based driver uses predefined parameters such as target speed and center-line
-                                correction to control the vehicle. The training process iteratively:</p>
-                        <ul>
-                                <li>Mutate selected parameters</li>
-                                <li>Execute the TORCS simulator</li>
-                                <li>Compare results—retaining candidates only when lap times improve</li>
-                        </ul>
-                        <div class="highlight">
-                                <p><strong>Result:</strong> Achieved an impressive lap time of <strong>101.548
-                                                seconds</strong> on the test track.</p>
-                        </div>
+        <!-- Training Section -->
+        <section>
+            <h1>Training the Driver</h1>
 
-                        <div class="image-gallery">
-                                <img alt="Rule-based model performance" src="images/image4.png"
-                                        title="Lap time optimization">
-                        </div>
+            <h2>Rule-Based Model</h2>
+            <p>It's a model that drives based on provided parameters, like target speed or center-line correction.</p>
+            <p>To train it we run the given process multiple times:</p>
+            <ul>
+                <li>Mutate selected parameters</li>
+                <li>Run TORCS</li>
+                <li>Compare the result: keep the candidate only when the best known lap was improved</li>
+            </ul>
 
-                        <h3>Behavioral Cloning</h3>
-                        <p>We collected driving data from our rule-based model and trained a supervised learning model
-                                on this expert behavior. This approach gave us a strong starting point for reinforcement
-                                learning, eliminating the exploration burden of starting from random actions.</p>
+            <div class="highlight">
+                <p><strong>Result:</strong> Achieved an impressive lap time of <strong>101.548 seconds</strong> on the test track.</p>
+            </div>
 
-                        <h3>Reinforcement Learning with SAC</h3>
-                        <p>After behavioral cloning, we trained our RL model using the Soft Actor-Critic (SAC)
-                                algorithm. The biggest challenges were fine-tuning both the observation space and the
-                                reward function. Through systematic experimentation, we successfully created a driver
-                                capable of completing laps autonomously.</p>
+            <div class="image-gallery">
+                <img alt="Rule-based model performance" src="images/image4.png" title="Lap time optimization">
+            </div>
 
-                        <div class="image-gallery">
-                                <img alt="RL training curves" src="images/image5.png" title="Training progress">
-                                <img alt="Agent performance" src="images/image3.png" title="Autonomous driving results">
-                        </div>
+            <h2>Behavioral Cloning</h2>
+            <p>We decided to collect data from the rule-based model and then train a supervised learning model with it. Because of this we had a great RL model from the start!</p>
 
-                        <h3>Future Improvements</h3>
-                        <div class="highlight">
-                                <p><strong>Planned enhancements:</strong> Train on increasingly complex tracks to
-                                        improve generalization. We plan to implement a quadratic penalty for steering
-                                        oscillations relative to vehicle speed, accounting for centripetal acceleration
-                                        effects. Additional improvements include augmenting the network with LSTM layers
-                                        for better trajectory planning.</p>
-                        </div>
-                </section>
+            <h2>Reinforcement Learning with SAC</h2>
+            <p>After behavioral cloning we started training the RL model using SAC (Soft Actor-Critic). We still had some problems with adjusting both observation space and reward, but after multiple tries we finally created a driver capable of completing the lap.</p>
 
-                <!-- Problems & Solutions -->
-                <section>
-                        <h2>Challenges & Solutions</h2>
-                        <p>Our approach relied on iteratively balancing the reward function to eliminate pathological
-                                agent behaviors. Key issues we addressed:</p>
-                        <ul>
-                                <li><strong>Track Exploitation:</strong> Agent deliberately going off-track to minimize
-                                        penalties</li>
-                                <li><strong>Risk Aversion:</strong> Unwillingness to explore faster routes</li>
-                                <li><strong>Chaotic Movement:</strong> Erratic steering and acceleration patterns</li>
-                                <li><strong>Observation Space Tuning:</strong> Finding the optimal sensor inputs for
-                                        decision-making</li>
-                        </ul>
-                        <p>By systematically observing and addressing these behaviors, we evolved the agent from erratic
-                                performance to smooth, stable, and competitive driving.</p>
-                </section>
+            <div class="image-gallery">
+                <img alt="RL training curves" src="images/image5.png" title="Training progress">
+                <img alt="Agent performance" src="images/image3.png" title="Autonomous driving results">
+            </div>
 
-                <!-- Motivation Section -->
-                <section>
-                        <h2>Motivation & Thanks</h2>
-                        <p>As AGH students passionate about AI and quantum computing, the <strong>IBM AI Racing
-                                        League</strong> presented a perfect opportunity to deepen our knowledge of
-                                reinforcement learning in a practical, competitive context.</p>
+            <h2>Further Work and Ideas</h2>
+            <div class="highlight">
+                <p><strong>Future work</strong> should focus on training on increasingly complex tracks to improve model generalization. Additionally, we plan to experiment with a quadratic penalty for steering oscillations relative to vehicle speed. This approach would mathematically account for the increase in centripetal acceleration, forcing the agent to prioritize smooth cornering at higher velocities. Further improvements could also involve augmenting the network architecture with LSTM layers for better trajectory planning.</p>
+            </div>
+        </section>
 
-                        <div class="highlight">
-                                <p>🙏 <strong>Thank you IBM</strong> for inspiring us through this competition. It
-                                        allowed us to expand our technical knowledge while developing crucial soft
-                                        skills like teamwork and project management.</p>
-                                <p>We're grateful for the comprehensive SkillsBuild courses that taught us the
-                                        fundamentals of reinforcement learning and diverse approaches to AI. This is
-                                        just the beginning of our journey with IBM and the AI Racing League!</p>
-                        </div>
-                </section>
-        </div>
+        <!-- IBM Tools Section -->
+        <section>
+            <h1>How IBM Tools Shaped Our Project</h1>
+            <p>We wouldn't have achieved what we did without the IBM tools and courses available to us. Here are the ones that made the biggest difference:</p>
 
-        <footer>
-                <p>🚀 FerrAIri Project | IBM AI Racing League | AGH AI Lab</p>
-                <p style="margin-top: 10px; font-size: 0.85rem;">Built with modern AI and deep learning techniques |
-                        Repository: GitHub</p>
-        </footer>
+            <h2>IBM SkillsBuild</h2>
+            <p>The platform that gave us structured courses on AI and Machine Learning that built the theoretical foundation we needed before writing code.</p>
+
+            <h2>IBM Bob</h2>
+            <p>Our everyday Assistant and probably the team member who never slept. Whenever we hit a wall or wanted to test a new ideal, Bob was helping us think it through and get back on track.</p>
+        </section>
+
+        <!-- Problems Section -->
+        <section>
+            <h1>Problems and How We Solved Them</h1>
+            <p>Our approach relied on iteratively balancing the reward function to eliminate pathological agent behaviors. By observing and systematically addressing these issues, such as deliberately going off the track to minimize the penalty in given situations or unwillingness to explore faster routes, we evolved the agent from chaotic movement and risk aversion to a more smooth and stable performance.</p>
+        </section>
+
+        <!-- Closing Section -->
+        <section>
+            <h1>Closing Thoughts & Thanks</h1>
+            <div class="highlight">
+                <p>We want to wrap up by saying <strong>thank you to IBM</strong> for organizing this competition and giving us the inspiration to take it on. It pushed us to grow not just technically, but also in skills like teamwork and project management that no textbook really teaches.</p>
+                <p>Thank you for the SkillsBuild courses, which gave us a solid grounding in reinforcement learning and the many ways to approach it.</p>
+                <p>This competition was just the beginning. We're excited to keep building on what we've learned!</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>🏁 FerrAIri Project | IBM AI Racing League | AGH AI Lab</p>
+        <p>Built with modern AI and deep learning techniques | Team: AGH University</p>
+    </footer>
 </body>
 
 </html>
