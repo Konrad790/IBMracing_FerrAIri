@@ -1,0 +1,380 @@
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+}
+
+:root {
+        --ferrari-red: #DC143C;
+        --ferrari-dark-red: #8B0000;
+        --ferrari-gold: #FFD700;
+        --bg: #0a0a0a;
+        --bg-light: #1a1a1a;
+        --text: #f5f5f5;
+        --text-dark: #b0b0b0;
+        --border: #2a2a2a;
+}
+
+body {
+        font-family: 'Segoe UI', 'Roboto', -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        overflow-x: hidden;
+}
+
+/* Header */
+header {
+        background: linear-gradient(135deg, var(--ferrari-dark-red) 0%, var(--ferrari-red) 100%);
+        padding: 80px 20px;
+        text-align: center;
+        border-bottom: 4px solid var(--ferrari-gold);
+        position: relative;
+        overflow: hidden;
+}
+
+header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+}
+
+header h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+}
+
+header p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        position: relative;
+        z-index: 1;
+        font-weight: 300;
+        letter-spacing: 1px;
+}
+
+/* Container */
+.container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 50px 20px;
+}
+
+/* Sections */
+section {
+        margin-bottom: 80px;
+        scroll-margin-top: 100px;
+}
+
+section h1 {
+        font-size: 3rem;
+        color: var(--ferrari-gold);
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid var(--ferrari-red);
+        position: relative;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 900;
+}
+
+section h1::before {
+        content: '🏁 ';
+        margin-right: 15px;
+}
+
+section h2 {
+        font-size: 2.2rem;
+        color: var(--ferrari-gold);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-left: 5px solid var(--ferrari-red);
+        padding-left: 20px;
+        font-weight: 800;
+        text-transform: uppercase;
+}
+
+section h3 {
+        font-size: 1.5rem;
+        color: var(--ferrari-red);
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+}
+
+/* Team Grid */
+.team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+}
+
+.team-member {
+        background: linear-gradient(135deg, var(--bg-light) 0%, rgba(220, 20, 60, 0.05) 100%);
+        border: 2px solid var(--ferrari-red);
+        border-radius: 12px;
+        padding: 25px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+}
+
+.team-member::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--ferrari-gold), transparent);
+        transition: left 0.4s ease;
+}
+
+.team-member::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+}
+
+.team-member:hover {
+        border-color: var(--ferrari-gold);
+        background: linear-gradient(135deg, var(--bg-light) 0%, rgba(220, 20, 60, 0.15) 100%);
+        transform: translateY(-8px);
+        box-shadow: 0 10px 30px rgba(220, 20, 60, 0.2);
+}
+
+.team-member:hover::before {
+        left: 100%;
+}
+
+.team-member:hover::after {
+        opacity: 1;
+}
+
+.team-member strong {
+        color: var(--ferrari-gold);
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+}
+
+.team-member .field {
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        line-height: 1.6;
+}
+
+/* Lists */
+ul,
+ol {
+        margin: 25px 0 25px 35px;
+}
+
+li {
+        margin-bottom: 15px;
+        color: var(--text);
+        font-size: 1.05rem;
+}
+
+ul li::marker {
+        color: var(--ferrari-red);
+        font-weight: bold;
+}
+
+/* Paragraphs */
+p {
+        margin-bottom: 18px;
+        color: var(--text);
+        font-size: 1.05rem;
+        line-height: 1.9;
+}
+
+/* Image Gallery */
+.image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+}
+
+img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        border: 3px solid var(--ferrari-red);
+        transition: all 0.4s ease;
+        display: block;
+}
+
+img:hover {
+        border-color: var(--ferrari-gold);
+        transform: scale(1.03);
+        box-shadow: 0 0 30px rgba(220, 20, 60, 0.4);
+}
+
+/* Highlight boxes */
+.highlight {
+        background: linear-gradient(135deg, rgba(220, 20, 60, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+        border-left: 5px solid var(--ferrari-red);
+        border-radius: 8px;
+        padding: 30px;
+        margin: 30px 0;
+        position: relative;
+        overflow: hidden;
+}
+
+.highlight::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+}
+
+.highlight p {
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+}
+
+.highlight p:last-child {
+        margin-bottom: 0;
+}
+
+.highlight strong {
+        color: var(--ferrari-gold);
+}
+
+/* Links */
+a {
+        color: var(--ferrari-gold);
+        text-decoration: none;
+        border-bottom: 2px solid var(--ferrari-red);
+        transition: all 0.3s ease;
+}
+
+a:hover {
+        color: var(--ferrari-red);
+        border-bottom-color: var(--ferrari-gold);
+}
+
+/* Footer */
+footer {
+        background: linear-gradient(135deg, var(--bg-light) 0%, var(--ferrari-dark-red) 100%);
+        border-top: 4px solid var(--ferrari-gold);
+        padding: 50px 20px;
+        text-align: center;
+        margin-top: 100px;
+        position: relative;
+}
+
+footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--ferrari-gold), transparent);
+}
+
+footer p {
+        color: var(--text);
+        font-size: 1rem;
+        margin-bottom: 10px;
+}
+
+footer p:first-child {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ferrari-gold);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+}
+
+footer p:last-child {
+        font-size: 0.9rem;
+        color: var(--text-dark);
+        margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+        header h1 {
+                font-size: 2.5rem;
+        }
+
+        section h1 {
+                font-size: 2rem;
+        }
+
+        section h2 {
+                font-size: 1.6rem;
+        }
+
+        .team-grid {
+                grid-template-columns: 1fr;
+        }
+
+        .image-gallery {
+                grid-template-columns: 1fr;
+        }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+        from {
+                opacity: 0;
+                transform: translateY(30px);
+        }
+
+        to {
+                opacity: 1;
+                transform: translateY(0);
+        }
+}
+
+section {
+        animation: fadeInUp 0.7s ease-out;
+}
+
+@keyframes slideIn {
+        from {
+                opacity: 0;
+                transform: translateX(-20px);
+        }
+
+        to {
+                opacity: 1;
+                transform: translateX(0);
+        }
+}
+
+header {
+        animation: slideIn 0.6s ease-out;
+}
